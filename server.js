@@ -8,11 +8,18 @@ app.use(express.json());
 // ── Config ──────────────────────────────────────────────
 const GHL = {
   apiKey: process.env.GHL_API_KEY,
-  baseUrl: process.env.GHL_BASE_URL,
+  baseUrl: process.env.GHL_BASE_URL || "https://services.leadconnectorhq.com",
   locationId: process.env.GHL_LOCATION_ID,
   pipelineSales: process.env.GHL_PIPELINE_SALES,
   stageNewBooking: process.env.GHL_STAGE_NEW_BOOKING,
 };
+
+// Validation au démarrage
+const requiredVars = ["GHL_API_KEY", "GHL_LOCATION_ID", "GHL_PIPELINE_SALES", "GHL_STAGE_NEW_BOOKING"];
+for (const v of requiredVars) {
+  if (!process.env[v]) console.warn(`⚠ Variable manquante: ${v}`);
+}
+console.log("Config GHL:", { baseUrl: GHL.baseUrl, locationId: GHL.locationId, pipelineSales: GHL.pipelineSales, stageNewBooking: GHL.stageNewBooking });
 
 const ghlHeaders = {
   Authorization: `Bearer ${GHL.apiKey}`,
