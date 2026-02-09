@@ -151,6 +151,14 @@ app.get("/health", (req, res) => {
     status: "ok",
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
+    config: {
+      ghl_base_url: GHL.baseUrl,
+      ghl_location_id: GHL.locationId,
+      ghl_pipeline: GHL.pipelineSales,
+      ghl_stage_booking: GHL.stageNewBooking,
+      ghl_api_key_set: !!GHL.apiKey,
+      ghl_api_key_prefix: GHL.apiKey ? GHL.apiKey.substring(0, 10) + "..." : "NOT SET",
+    },
   });
 });
 
