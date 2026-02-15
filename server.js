@@ -48,9 +48,9 @@ async function findContactByPhone(phone) {
   return contact;
 }
 
-// Cherche les opportunités d'un contact dans la Sales Pipeline
+// Cherche les opportunités d'un contact dans tous les pipelines
 async function findOpportunityForContact(contactId) {
-  const url = `${GHL.baseUrl}/opportunities/search?location_id=${GHL.locationId}&pipeline_id=${GHL.pipelineSales}&contact_id=${contactId}&limit=20`;
+  const url = `${GHL.baseUrl}/opportunities/search?location_id=${GHL.locationId}&contact_id=${contactId}&limit=20`;
   const res = await axios.get(url, { headers: ghlHeaders });
   const opportunities = res.data?.opportunities || [];
   return opportunities[0] || null;
@@ -112,15 +112,15 @@ app.post("/webhook/calendly", async (req, res) => {
 
     console.log(`  → Contact trouvé: ${contact.id} (${contact.firstName || ""} ${contact.lastName || ""})`);
 
-    // 3. Chercher l'opportunité dans Sales Pipeline
+    // 3. Chercher l'opportunité dans tous les pipelines
     const opportunity = await findOpportunityForContact(contact.id);
 
     if (!opportunity) {
-      console.log(`  ✗ Aucune opportunité trouvée dans Sales Pipeline pour contact: ${contact.id}`);
+      console.log(`  ✗ Aucune opportunité trouvée pour contact: ${contact.id}`);
       return res.status(200).json({
         status: "opportunity_not_found",
         contactId: contact.id,
-        message: "Contact trouvé mais aucune opportunité dans Sales Pipeline",
+        message: "Contact trouvé mais aucune opportunité dans aucun pipeline",
       });
     }
 
