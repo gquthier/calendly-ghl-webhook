@@ -41,7 +41,7 @@ async function findContactByEmail(email) {
 
 // Cherche un contact GHL par téléphone
 async function findContactByPhone(phone) {
-  const url = `${GHL.baseUrl}/contacts/search/duplicate?locationId=${GHL.locationId}&phone=${encodeURIComponent(phone)}`;
+  const url = `${GHL.baseUrl}/contacts/search/duplicate?locationId=${GHL.locationId}&number=${encodeURIComponent(phone)}`;
   const res = await axios.get(url, { headers: ghlHeaders });
   const contact = res.data?.contact;
   if (!contact) return null;
