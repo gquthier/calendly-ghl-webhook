@@ -271,7 +271,7 @@ app.get("/health", (req, res) => {
 
 // ── Start ───────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`\n🚀 Webhook server démarré sur le port ${PORT}`);
   console.log(`   POST /webhook/calendly  → Reçoit les webhooks Calendly`);
   console.log(`   POST /webhook/typeform  → Reçoit les webhooks Typeform`);
